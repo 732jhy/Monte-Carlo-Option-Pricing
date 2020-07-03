@@ -26,7 +26,7 @@ def monte_carlo(S,K,T,r,q,sigma,CallPut,n,m):
     
     def GBM_sim(mu,sigma,T,S,N, M):
         '''Simulates M paths of Geometric Brownian Motion with N time steps'''
-        sims = np.zeros(M)
+        sims = np.zeros(M) 
         dt = T/N
         
         for i in range(M):

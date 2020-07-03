@@ -221,19 +221,3 @@ def monte_carlo_AVCV(S,K,T,r,q,sigma,CallPut,n,m,beta1):
     return c_hat, sd, se
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

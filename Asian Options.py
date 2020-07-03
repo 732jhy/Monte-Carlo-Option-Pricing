@@ -41,12 +41,9 @@ def arith_asian(S,K,T,r,sigma,CallPut,M,N):
     
     sims = sims*np.exp(-r*T)
     mu_hat = np.mean(sims)
-    sigma_hat = np.sqrt(np.sum((sims-mu_hat)**2)/(M-1))
-    
+    sigma_hat = np.sqrt(np.sum((sims-mu_hat)**2)/(M-1))    
     CI = [mu_hat - 1.96*sigma_hat/np.sqrt(M), mu_hat + 1.96*sigma_hat/np.sqrt(M)]
-    
     return mu_hat, CI
-
 
 
 def geom_asian(S,K,T,r,sigma,CallPut,M,N):
@@ -81,8 +78,7 @@ def geom_asian(S,K,T,r,sigma,CallPut,M,N):
         sims[sims < 0] = 0
         
     sims = sims*np.exp(-r*T)
-    est = np.mean(sims)
-    
+    est = np.mean(sims)   
     sigma_hat = np.sqrt(np.sum((sims-est)**2)/(M-1))
     CI = [est - 1.96*sigma_hat/np.sqrt(M), est + 1.96*sigma_hat/np.sqrt(M)]
     
@@ -152,7 +148,6 @@ def arith_asian_CV(S,K,T,r,sigma,M,N):
     sigma_hat = np.sqrt(np.sum((Pa-mu_hat)**2)/(M-1))    
     CI = [mu_hat - 1.96*sigma_hat/np.sqrt(M), mu_hat + 1.96*sigma_hat/np.sqrt(M)]    
     return mu_hat, CI
-
 
 
 def asian_barrier_MC(S,K,B,T,r,q,sigma,n,m):

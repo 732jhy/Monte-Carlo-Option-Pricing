@@ -48,29 +48,3 @@ def heston_MC(S, K, T, r, V, q, rho, kappa, theta, sigma, CallPut, n, m):
     
     return np.mean(payoff)*np.exp(-r*T)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

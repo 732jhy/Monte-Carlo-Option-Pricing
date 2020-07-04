@@ -16,8 +16,8 @@ def heston_MC(S, K, T, r, V, q, rho, kappa, theta, sigma, CallPut, n, m):
     model
     
     Args:
-        S - initial price of underlying asset                   kappa - term              
-        K - strike price                                        theta - term
+        S - initial price of underlying asset                   kappa - mean reversion              
+        K - strike price                                        theta - long-run variance
         T - time to maturity                                    sigma - vol of vol
         r - risk-free rate                                      CallPut - call or put
         V - initial volatility of underlying asset              n - number of time steps in each path

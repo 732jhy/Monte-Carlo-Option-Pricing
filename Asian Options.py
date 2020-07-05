@@ -12,7 +12,7 @@ import scipy.stats as si
 
 def arith_asian(S,K,T,r,sigma,CallPut,M,N):
     '''
-    Simple Monte Carlo pricing for arithmetic Asian call option
+    Simple Monte Carlo pricing for arithmetic Asian options
     
     Args:
         S - Initial Stock Price         sigma - Volatility
@@ -48,7 +48,7 @@ def arith_asian(S,K,T,r,sigma,CallPut,M,N):
 
 def geom_asian(S,K,T,r,sigma,CallPut,M,N):
     '''
-    Simple Monte Carlo pricing for geometric Asian call option
+    Simple Monte Carlo pricing for geometric Asian options
     
     Args:
         S - Initial Stock Price         sigma - Volatility
@@ -88,7 +88,7 @@ def geom_asian(S,K,T,r,sigma,CallPut,M,N):
 
 def arith_asian_CV(S,K,T,r,sigma,M,N):
     '''
-    Monte Carlo for arithmetic Asian call option with control variate
+    Monte Carlo for arithmetic Asian options with control variate
     The control variate is implemented using the Geometric Asian option's closed-form Black-Scholes pricing
     formula
     

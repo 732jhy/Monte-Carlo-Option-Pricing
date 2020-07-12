@@ -166,10 +166,11 @@ def asian_barrier_MC(S,K,B,T,r,q,sigma,n,m):
         '''Simulates paths of Geometric Brownian motion, checking or the up-and-out condition'''
         sims = np.zeros(M)
         dt = T/N
+        t = np.linspace(0, T, N)
         for i in range(M):
             W = [0]+np.random.standard_normal(size=N)
             W = np.cumsum(W)*np.sqrt(dt)
-            St = S*np.exp((mu-0.5*sigma**2)*T + sigma*W)
+            St = S*np.exp((mu-0.5*sigma**2)*t + sigma*W)
             BARRIER_CROSSED = St  > B
             if True in BARRIER_CROSSED:
                 sims[i] = 0

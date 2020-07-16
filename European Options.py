@@ -135,7 +135,7 @@ def monte_carlo_CV(S,K,T,r,q,sigma,CallPut,n,m,beta1):
             cv = np.sum(d*(St[1:N] - (St[0:N-1]*erddt))*np.exp(mu*ttm[1:N]))
             sims[i] = [St[-1], cv]
         return np.array(sims).T
-        
+    beta1 = -1.0 
     paths = GBM_sim(r-q,sigma,T,S,n,m,CallPut,K)
 
     if CallPut == 'Call':
@@ -155,7 +155,7 @@ def monte_carlo_CV(S,K,T,r,q,sigma,CallPut,n,m,beta1):
     return c_hat, sd, se
 
 
-def monte_carlo_AVCV(S,K,T,r,q,sigma,CallPut,n,m,beta1):
+def monte_carlo_AVCV(S,K,T,r,q,sigma,CallPut,n,m):
     '''
     Monte Carlo European option pricing algorithm with Delta-based control variate and Antithetic Variates
     with Euler discretization.
@@ -197,7 +197,7 @@ def monte_carlo_AVCV(S,K,T,r,q,sigma,CallPut,n,m,beta1):
             sims[i] = [St[-1], Sta[-1], cv, cva]
         
         return np.array(sims).T
-        
+    beta1 = -1.0
     paths = GBM_sim(r-q,sigma,T,S,n,m,CallPut,K)
 
     if CallPut == 'Call':

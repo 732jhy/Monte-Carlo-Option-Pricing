@@ -99,7 +99,7 @@ def monte_carlo_AV(S,K,T,r,q,sigma,CallPut,n,m):
     return c_hat, sd, se
 
 
-def monte_carlo_CV(S,K,T,r,q,sigma,CallPut,n,m,beta1):
+def monte_carlo_CV(S,K,T,r,q,sigma,CallPut,n,m):
     '''
     Monte Carlo European option pricing algorithm with Delta-based control variate with Euler discretization
     

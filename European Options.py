@@ -7,7 +7,7 @@ Created on Fri Jul  3 16:12:30 2020
 Monte Carlo simulations for European option pricing (simple, AV, and CV)
 """
 import numpy as np
-import scip.stats as si
+import scipy.stats as si
 
 def monte_carlo(S,K,T,r,q,sigma,CallPut,n,m):
     '''

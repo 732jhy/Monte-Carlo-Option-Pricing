@@ -28,12 +28,12 @@ def monte_carlo(S,K,T,r,q,sigma,CallPut,n,m):
         '''Simulates M paths of Geometric Brownian Motion with N time steps'''
         sims = np.zeros(M) 
         dt = T/N
-        t = np.linspace(0, T, N)
+
         for i in range(M):
             W = [0]+np.random.standard_normal(size=N)
             sims[i] = np.sum(W)*np.sqrt(dt) #We only are concerned with the terminal value for European options
         
-        St = S*np.exp((mu-0.5*sigma**2)*t + sigma*sims)     
+        St = S*np.exp((mu-0.5*sigma**2)*T + sigma*sims)     
         return St
    
     paths = GBM_sim(r-q,sigma,T,S,n,m)
@@ -72,13 +72,13 @@ def monte_carlo_AV(S,K,T,r,q,sigma,CallPut,n,m):
         '''Simulates M paths of Geometric Brownian Motion with N time steps incorporating antithetic variance reduction'''
         sims = np.zeros(M)
         dt = T/N
-        t = np.linspace(0, T, N)
+
         for i in range(M):
             W = [0]+np.random.standard_normal(size=N)
             sims[i] = np.sum(W)*np.sqrt(dt) #we are concerned with only the final value of the path
         
-        St = S*np.exp((mu-0.5*sigma**2)*t + sigma*sims)
-        Sta = S*np.exp((mu-0.5*sigma**2)*t - sigma*sims)    
+        St = S*np.exp((mu-0.5*sigma**2)*T + sigma*sims)
+        Sta = S*np.exp((mu-0.5*sigma**2)*T - sigma*sims)    
         return np.array([St, Sta])
         
     paths = GBM_sim(r-q,sigma,T,S,n,m)

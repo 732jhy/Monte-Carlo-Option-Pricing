@@ -115,7 +115,7 @@ def monte_carlo_CV(S,K,T,r,q,sigma,CallPut,n,m):
     '''
     def delta(S, K, T, r, sigma, c_p):
         '''Black-Scholes delta'''
-        d1 = (np.log(S/K) + np.sqrt(T)*(r + 0.5*sigma*sigma))/(sigma*np.sqrt(T))
+        d1 = (np.log(S/K) + (r + 0.5*sigma**2)*T)/(sigma*np.sqrt(T))
         if c_p == 'Call':    
             return si.norm.cdf(d1, 0.0, 1.0)
         elif c_p == 'Put':

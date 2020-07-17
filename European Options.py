@@ -290,8 +290,8 @@ def monte_carlo_deltCV_AV(S,K,T,r,q,sigma,CallPut,n,m):
         paths[0] = paths[0] + beta1*paths[2]
         paths[1] = paths[1] + beta1*paths[3]
     
-    cT = np.mean(paths[0:1], axis=0)
-    c_hat = np.mean(paths[0:1])*np.exp(-r*T)
+    cT = np.mean(paths[0:2], axis=0)
+    c_hat = np.mean(paths[0:2])*np.exp(-r*T)
     
     sd = np.sqrt(np.sum((cT*np.exp(-r*T) - c_hat)**2)/(m-1))
     se = sd/np.sqrt(m)

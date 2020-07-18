@@ -149,39 +149,69 @@ def arith_asian_CV(S,K,T,r,sigma,M,N):
     CI = [mu_hat - 1.96*sigma_hat/np.sqrt(M), mu_hat + 1.96*sigma_hat/np.sqrt(M)]    
     return mu_hat, CI
 
-
-def asian_barrier_MC(S,K,B,T,r,q,sigma,n,m):
+def asian_knock_out_MC(S,K,B,T,r,q,sigma,CallPut, n,m):
     '''
-    Monte Carlo simulation for Up-and-Out Asian Barrier Call option
-    Assumes the closing price is checked at the end of every trading day.
+    Monte Carlo simulation for Knock-Out Asian Barrier options.
+    Assumes the price of the underlying asset is checked continuously throughout the life of the option.
     
     Args:
         S - Price of the underlying asset at time 0     q - dividend rate
         K - Strike price                                sigma - volatility
-        B - Barrier value                               n - time steps for each path
-        T - time to maturity                            m - number of paths in the simulation
-        r - risk-free rate
+        B - Barrier value                               CallPut - 'Call' or 'Put'
+        T - time to maturity                            n - time steps in each path
+        r - risk-free rate                              m - number of simulated paths
+   
+    Returns the estimated price, the standard deviation and standard error associated with the simulation.
     '''
-    def GBM_sim(mu,sigma,T,S,N, M):
+    def path_sim(mu,sigma,T,S,N, M):
         '''Simulates paths of Geometric Brownian motion, checking or the up-and-out condition'''
         sims = np.zeros(M)
         dt = T/N
-        t = np.linspace(0, T, N)
-        for i in range(M):
-            W = [0]+np.random.standard_normal(size=N)
-            W = np.cumsum(W)*np.sqrt(dt)
-            St = S*np.exp((mu-0.5*sigma**2)*t + sigma*W)
-            BARRIER_CROSSED = St  > B
-            if True in BARRIER_CROSSED:
-                sims[i] = 0
-            else:
-                sims[i] = np.mean(St[::24]) # mean of just the closing prices           
-        return sims
+        t = np.linspace(0,T,N)
+        
+        # Up-and-Out Barrier option:
+        if S < B:
+            for i in range(M):
+                W = [0] + np.random.standard_normal(size=N)
+                W = np.cumsum(W)*np.sqrt(dt)
+                St = S*np.exp((mu-0.5*sigma**2)*t + sigma*W)
+                BARRIER_CROSSED = St > B
+                if True in BARRIER_CROSSED:
+                    sims[i] = 0
+                else:
+                    sims[i] = np.mean(St) 
+        
+        # Down-and_out Barrie option:
+        elif S > B:
+            for i in range(M):
+                W = [0] + np.random.standard_normal(size=N)
+                W = np.cumsum(W)*np.sqrt(dt)
+                St = S*np.exp((mu-0.5*sigma**2)*t + sigma*W)
+                BARRIER_CROSSED = St < B
+                if True in BARRIER_CROSSED:
+                    sims[i] = 0
+                else:
+                    sims[i] = np.mean(St)
+                
+        return sims   
     
-    paths = GBM_sim(r-q,sigma,T,S,n,m)
-    paths = paths - K
-    paths[paths < 0] = 0    
-    return np.mean(paths)*np.exp(-r*T)
+    paths = path_sim(r-q,sigma,T,S,n,m)
+    
+    if CallPut == 'Call':    
+        # Option payoff:
+        paths = paths - K
+        paths[paths < 0] = 0    
+        
+    elif CallPut == 'Put':
+        # Option payoff:
+        paths = K - paths
+        paths[paths < 0] = 0
+    
+    est = np.mean(paths)*np.exp(-r*T)
+    sd = np.sqrt(np.sum((paths*np.exp(-r*T) - est)**2)/(m-1))
+    se = sd/np.sqrt(m)
+    
+    return est, sd, se
 
 
 
